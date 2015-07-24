@@ -1,11 +1,10 @@
+var myEmail = 'jojoldu@naver.com';
+var myPassword = '1234';
+
 $(function(){
 
-    $('#btnLogin').click(checkIdAndPw);
- 	window.emailList = ['tom', 'joe', 'hong', 'oh'];
-   
-
-    //1. 허용된 id만 로그인 가능
-    //2. password와 password2가 같아야함
+    $('#btnLogin').click(checkEmailAndPassword);
+		$('font').hide();
 });
 
 function show(){
@@ -36,5 +35,39 @@ function checkIdAndPw(){
 	}else{
 		alert('로그인!');
 	}
+}
+
+function checkEmailAndPassword(){
+		 if(checkEmail()){
+			 alert('로그인!');
+		 }
+
+
+}
+
+function checkEmail(){
+	var $inputEmail = $('#inputEmail');
+	var $parent = $inputEmail.closest('p');
+	var $fontChild = $parent.find('font');
+
+	//inputEmail is false
+	if(!$inputEmail.val()){
+
+		$fontChild.show();
+		$inputEmail.addClass('empty');
+		return false;
+	}else{
+		$fontChild.hide();
+		$inputEmail.removeClass('empty');
+	}
+	return true;
+}
+
+function checkPassword(){
+
+}
+
+function checkPasswordConfirm(){
+
 }
 
