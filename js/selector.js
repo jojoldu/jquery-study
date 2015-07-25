@@ -1,10 +1,11 @@
 var myEmail = 'jojoldu@naver.com';
 var myPassword = '1234';
 
+//js 파일 로딩될때 바로 시작
 $(function(){
 
     $('#btnLogin').click(checkEmailAndPassword);
-		$('font').hide();
+	$('font').hide();
 });
 
 function show(){
@@ -38,17 +39,18 @@ function checkIdAndPw(){
 }
 
 function checkEmailAndPassword(){
-		 if(checkEmail()){
-			 alert('로그인!');
-		 }
-
-
+	var cEmail = checkEmail(),
+		cPassword = checkPassword(),
+		cPasswordConfirm = checkPasswordConfirm();
+		 
+	if(cEmail && cPassword && cPasswordConfirm){
+		alert('로그인!');
+	}
 }
 
 function checkEmail(){
 	var $inputEmail = $('#inputEmail');
-	var $parent = $inputEmail.closest('p');
-	var $fontChild = $parent.find('font');
+	var $fontChild = $inputEmail.closest('p').find('font');
 
 	//inputEmail is false
 	if(!$inputEmail.val()){
@@ -64,10 +66,26 @@ function checkEmail(){
 }
 
 function checkPassword(){
+	var $inputPassword = $('#inputPassword');
+	var $fontChild = $inputPassword.closest('p').find('font');
 
+	//inputPassword is false
+	if(!$inputPassword.val()){
+
+		$fontChild.show();
+		$inputPassword.addClass('empty');
+		return false;
+	}else{
+		$fontChild.hide();
+		$inputPassword.removeClass('empty');
+	}
+	return true;
 }
 
 function checkPasswordConfirm(){
+	var $inputPasswordConfirm = $('#inputPasswordConfirm');
+	var $fontChilds = $inputPasswordConfirm.closest('p').find('font');
 
+	$fontChilds.eq(1).show();
 }
 
