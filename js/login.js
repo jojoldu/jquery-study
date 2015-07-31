@@ -44,7 +44,7 @@ function checkEmailAndPassword(){
 		cPasswordConfirm = checkPasswordConfirm();
 		 
 	if(cEmail && cPassword && cPasswordConfirm){
-		alert('로그인!');
+		window.location.href=window.location.href.replace('/login.html', '/member.html');
 	}
 }
 
@@ -71,21 +71,30 @@ function checkPassword(){
 
 	//inputPassword is false
 	if(!$inputPassword.val()){
-
 		$fontChild.show();
 		$inputPassword.addClass('empty');
 		return false;
 	}else{
 		$fontChild.hide();
 		$inputPassword.removeClass('empty');
+		return true;
 	}
-	return true;
 }
 
 function checkPasswordConfirm(){
+	var $inputPassword = $('#inputPassword');
 	var $inputPasswordConfirm = $('#inputPasswordConfirm');
 	var $fontChilds = $inputPasswordConfirm.closest('p').find('font');
 
-	$fontChilds.eq(1).show();
+	if($inputPassword.val() !== $inputPasswordConfirm.val() ){
+		$inputPassword.addClass('empty');
+		$fontChilds.eq(1).show();
+		return false;
+	}else{
+		$fontChilds.eq(1).hide();
+		return true;
+	}
+	
+
 }
 
