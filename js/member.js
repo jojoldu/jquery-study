@@ -52,7 +52,12 @@ var member = {
 		var $tbody = $('tbody');
 
 		$.each(members, function(index, value){
+			var $tr = $(document.createElement('tr')),
+				$td = $(document.createElement('td'));
 			
+			
+
+
 		});
 
 
