@@ -6,9 +6,19 @@ $(function(){
 });
 
 var member = {
-	
+	$el : $('#memberMain'),
+	list : [],
+	showModal : function(){
+
+	},
+
 	init : function(){
-		this.makeTbody(this.generateMembers());
+		this.list = this.generateMembers();
+		this.makeTbody(this.list);
+		this.$el.on('click', 'member_info', function(){
+			member.edit(member.find(this));
+			member.showModal();
+		});
 	},
 
 	generateMembers : function(){
@@ -64,6 +74,8 @@ var member = {
 
 		$.each(members, function(index, member){
 			var $tr = $(document.createElement('tr'));
+			$tr.addClass('member_info');
+			$tr.attr('id', 'member_'+member.no);
 
 			for(prop in member){
 				var $td = $(document.createElement('td'));
@@ -72,7 +84,24 @@ var member = {
 			}
 			$tbody.append($tr);
 		});
-
 		$table.append($tbody);
-	}
+	},
+
+	find : function(target){
+		var $target = $(target),
+			members = this.list,
+			no = $target.attr('id').slice(7);
+
+		$.each(members, function(index, member){
+			if(member.no == no){
+				return member;
+			}
+		});
+	},
+	
+	edit : function(member){
+		var member = member || {};
+
+	}	
+
 }
