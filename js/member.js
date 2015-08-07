@@ -6,16 +6,19 @@ $(function(){
 });
 
 var member = {
-	$el : $('#memberMain'),
+	$el : {},
 	list : [],
-	showModal : function(){
 
+	showModal : function(){
+		$('#memberModal').modal();
 	},
 
 	init : function(){
 		this.list = this.generateMembers();
 		this.makeTbody(this.list);
-		this.$el.on('click', 'member_info', function(){
+		this.$el = $('#memberMain');
+	
+		this.$el.on('click', '.member_info', function(){
 			member.edit(member.find(this));
 			member.showModal();
 		});
