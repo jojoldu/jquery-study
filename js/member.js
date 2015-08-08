@@ -1,6 +1,6 @@
 
 $(function(){
-
+	//QA테스트 진행
 	member.init();
 
 });
