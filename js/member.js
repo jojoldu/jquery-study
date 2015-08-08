@@ -11,7 +11,7 @@ var member = {
 	currentData : {},
 
 	showModal : function(){
-		if(!currentData.no){
+		if(!this.currentData.idx){
 			this.reset();
 			this.currentData.joinDate = this.dateFormat();
 		}
@@ -34,7 +34,13 @@ var member = {
 		this.list = (this.list.length > 0)? this.list : this.generateMembers();
 		this.makeTbody(this.list);
 		this.$el = $('#memberMain');
-	
+
+		// this.$el.find('.member_info').click(function(){
+		// 	var idx = $(this).attr('id').slice(7);
+		// 	member.edit(member.find(idx));
+		// 	member.showModal();			
+		// });
+
 		this.$el.on('click', '.member_info', function(){
 			var idx = $(this).attr('id').slice(7);
 			member.edit(member.find(idx));
@@ -143,8 +149,8 @@ var member = {
 			$inputName = $('#inputName'),
 			$inputJob = $('#inputJob');
 
-		if(!member.no){
-			member.no = this.generateIdx();
+		if(!member.idx){
+			member.idx = this.generateIdx();
 		}
 
 		member.email = $inputEmail.val();
