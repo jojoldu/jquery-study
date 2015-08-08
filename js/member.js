@@ -35,12 +35,6 @@ var member = {
 		this.makeTbody(this.list);
 		this.$el = $('#memberMain');
 
-		// this.$el.find('.member_info').click(function(){
-		// 	var idx = $(this).attr('id').slice(7);
-		// 	member.edit(member.find(idx));
-		// 	member.showModal();			
-		// });
-
 		this.$el.on('click', '.member_info', function(){
 			var idx = $(this).attr('id').slice(7);
 			member.edit(member.find(idx));
