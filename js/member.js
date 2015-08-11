@@ -41,8 +41,11 @@ var member = {
 			member.showModal();
 		});
 
-		this.$el.find('#btnSubmit').click(this.save());
-		this.$el.find('#btnClose').click(this.closeModal());
+		this.$el.find('#btnSubmit').click(function(){
+			member.save();
+		});
+
+		this.$el.find('#btnClose').click(this.closeModal);
 	},
 
 	generateMembers : function(){
@@ -94,7 +97,13 @@ var member = {
 
 	makeTbody : function(members){
 		var $table = $('#tMember'),
-			$tbody = $(document.createElement('tbody'));
+			$tbody = $(document.createElement('tbody')),
+			$oldTbody = $table.find('tbody');
+		
+		//기존에 만들어져있던 tbody가 있다면 삭제해서 새로 생성
+		if($oldTbody){
+			$oldTbody.remove();
+		}
 
 		$.each(members, function(index, member){
 			var $tr = $(document.createElement('tr'));
@@ -138,6 +147,12 @@ var member = {
 	},
 
 	save : function(){
+		var member = this.getSaveMember();
+		this.list[member.idx-1] = member;
+		this.makeTbody(this.list);
+	},
+	
+	getSaveMember : function(){
 		var member = this.currentData,
 			$inputEmail = $('#inputEmail'),
 			$inputName = $('#inputName'),
@@ -152,13 +167,11 @@ var member = {
 		member.job = $inputJob.val();
 		member.updateDate = this.dateFormat();
 
-		this.list.push(member);
-		//this.init();
+		return member;
 	},
 
 	generateIdx : function(){
-		var lastIdx = this.list[this.list.length-1].idx;
-		return lastIdx+1;
+		return this.list[this.list.length-1].idx+1;
 	},
 
 	dateFormat : function(date){
