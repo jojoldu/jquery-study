@@ -1,6 +1,6 @@
 
 $(function(){
-	//QA테스트 진행
+
 	member.init();
 
 });
@@ -10,10 +10,9 @@ var member = {
 	list : [],
 	currentData : {},
 
-	showModal : function(){
-		if(!this.currentData.idx){
+	showModal : function(isEdit){
+		if(!isEdit){
 			this.reset();
-			this.currentData.joinDate = this.dateFormat();
 		}
 
 		$('#memberModal').modal();
@@ -39,7 +38,7 @@ var member = {
 		this.$el.on('click', '.member_info', function(){
 			var idx = $(this).attr('id').slice(7);
 			member.edit(member.find(idx));
-			member.showModal();
+			member.showModal(true);
 		});
 
 		this.$el.find('#btnSubmit').click(function(){
@@ -49,6 +48,10 @@ var member = {
 		this.$el.find('#btnClose').click(function(){
 			member.closeModal();
 		});
+
+		this.$el.find('#btnAdd').click(function(){
+			member.showModal();
+		});		
 	},
 
 	generateMembers : function(){
@@ -119,6 +122,7 @@ var member = {
 			}
 			$tbody.append($tr);
 		});
+
 		$table.append($tbody);
 	},
 
@@ -154,28 +158,56 @@ var member = {
 			$inputName = $('#inputName'),
 			$inputJob = $('#inputJob');
 
+		var currentDate = this.dateFormat();
+
 		if(!member.idx){
+			member = this.generateMember();
 			member.idx = this.generateIdx();
+			member.joinDate = currentDate;
 		}
 
 		member.email = $inputEmail.val();
 		member.name = $inputName.val();
 		member.job = $inputJob.val();
-		member.updateDate = this.dateFormat();
+		member.updateDate = currentDate;
 
+		this.send(member);
+	},
+
+	send : function(member){
 		this.list[member.idx-1] = member;
 		this.init();
 		this.closeModal();
 	},
 
 	generateIdx : function(){
-		var lastIdx = this.list[this.list.length-1].idx;
+		var lastIndex = this.list.length-1,
+		 	lastIdx = this.list[lastIndex].idx;
+
 		return lastIdx+1;
 	},
 
+	generateMember : function(){
+		return {
+					idx : '',
+					email : '',
+					name : '',
+					job : '',
+					joinDate : '',
+					updateDate : ''
+		};
+	},
+
 	dateFormat : function(date){
-		var date = date || new Date();
-		return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+		var date = date || new Date(),
+			year = date.getFullYear(),
+			month = date.getMonth()+1,
+			day = date.getDate();
+
+		month = (month.length < 2)? '0'+month : month;
+		day = (day.length < 2)? '0'+day : day;
+
+		return year + '-' + month + '-' + day;
 	}	
 
 }
