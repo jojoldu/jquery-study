@@ -11,11 +11,6 @@ var member = {
 	currentData : {},
 
 	showModal : function(){
-		if(!this.currentData.idx){
-			this.reset();
-			this.currentData.joinDate = this.dateFormat();
-		}
-
 		$('#memberModal').modal();
 	},
 
@@ -154,10 +149,6 @@ var member = {
 			$inputName = $('#inputName'),
 			$inputJob = $('#inputJob');
 
-		if(!member.idx){
-			member.idx = this.generateIdx();
-		}
-
 		member.email = $inputEmail.val();
 		member.name = $inputName.val();
 		member.job = $inputJob.val();
@@ -168,14 +159,15 @@ var member = {
 		this.closeModal();
 	},
 
-	generateIdx : function(){
-		var lastIdx = this.list[this.list.length-1].idx;
-		return lastIdx+1;
-	},
-
 	dateFormat : function(date){
-		var date = date || new Date();
-		return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
-	}	
+		var date = date || new Date(),
+			year = date.getFullYear(),
+			month = date.getMonth()+1,
+			day = date.getDate();
 
+		month = (month < 10)? '0'+month : month;
+		day = (day < 10)? '0'+day : day;
+
+		return year + '-' + month + '-' + day;
+	}	
 }
