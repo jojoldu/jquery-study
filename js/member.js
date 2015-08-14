@@ -31,6 +31,7 @@ var member = {
 	},
 
 	init : function(){
+		var that = this;
 		this.list = (this.list.length > 0)? this.list : this.generateMembers();
 		this.makeTbody(this.list);
 		this.$el = $('#memberMain');
@@ -41,8 +42,13 @@ var member = {
 			member.showModal();
 		});
 
-		this.$el.find('#btnSubmit').click(this.save());
-		this.$el.find('#btnClose').click(this.closeModal());
+		this.$el.find('#btnSubmit').click(function(){
+			member.save();
+		});
+
+		this.$el.find('#btnClose').click(function(){
+			member.closeModal();
+		});
 	},
 
 	generateMembers : function(){
@@ -94,7 +100,12 @@ var member = {
 
 	makeTbody : function(members){
 		var $table = $('#tMember'),
+			$oldTbody = $table.find('tbody'),
 			$tbody = $(document.createElement('tbody'));
+
+		if($oldTbody){
+			$oldTbody.remove();
+		}
 
 		$.each(members, function(index, member){
 			var $tr = $(document.createElement('tr'));
@@ -152,8 +163,9 @@ var member = {
 		member.job = $inputJob.val();
 		member.updateDate = this.dateFormat();
 
-		this.list.push(member);
-		//this.init();
+		this.list[member.idx-1] = member;
+		this.init();
+		this.closeModal();
 	},
 
 	generateIdx : function(){
