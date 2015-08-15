@@ -36,7 +36,7 @@ var member = {
 			member.edit(member.find(idx));
 			member.showModal();
 		});
-
+				
 		this.$el.find('#btnSubmit').click(function(){
 			member.save();
 		});
@@ -154,6 +154,10 @@ var member = {
 		member.job = $inputJob.val();
 		member.updateDate = this.dateFormat();
 
+		this.send(member);
+	},
+
+	send : function(member){
 		this.list[member.idx-1] = member;
 		this.init();
 		this.closeModal();
