@@ -53,6 +53,11 @@ var user = {
 			alert('이미 가입된 사용자입니다.');
 			return;
 		}
+
+		if(!this.validate()){
+			alert('필수값을 모두 채워주세요');
+			return;
+		}
 		
 		this.save({ email : email, password : password, name : name, job : job});
 	},
@@ -71,6 +76,20 @@ var user = {
 		return result;
 	},
 	
+	validate : function(){
+		var $signForms = this.$el.find('.signForms'),
+			result = true;
+
+		$.each($signForms, function(index, value){
+			if(!value.val()){
+				value.addClass('empty');
+				result = false;
+			}
+		});
+
+		return result;
+	},
+
 	//DB 연동시 수정
 	save : function(obj){
 		var joinDate = new Date(),
