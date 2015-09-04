@@ -27,10 +27,16 @@ var user = {
 	},
 
 	showModal : function(){
+		this.resetModal();
 		this.$el.find('#userModal').modal();
 	},
 	
 	closeModal : function(){
 		this.$el.find('#userModal').modal('hide');
+	},
+
+	resetModal : function(){
+		this.$el.find('.signForms').val('');
 	}
+
 }
