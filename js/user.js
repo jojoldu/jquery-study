@@ -54,12 +54,33 @@ var user = {
 		
 
 		// 1. 입력창에서 빈칸은 없는가?
-
+		if(!this.validate()){
+			alert('필수값을 모두 채워주세요');
+			return;
+		}
 		// 2. password와 passwordConfirm이 같은가?
 
 		// 3. 이미 등록된 사용자가 아닌가?
 
 		// 4. 위 검증이 끝나면 회원 가입
+	},
+
+	validate : function(){
+		var $signForms = this.$el.find('.signForms'),
+			result = true;
+
+		$.each($signForms, function(index, signForm){
+			var $signForm = $(signForm);
+
+			if(!$signForm.val()){
+				$signForm.addClass('empty');
+				result = false;
+			}else{
+				$signForm.removeClass('empty');
+			}
+		});
+
+		return result;
 	}
 
 }
