@@ -29,7 +29,6 @@ var user = {
 			user.signUp();
 		});
 
-
 	},
 
 	showModal : function(){
@@ -60,6 +59,6 @@ var user = {
 		// 3. 이미 등록된 사용자가 아닌가?
 
 		// 4. 위 검증이 끝나면 회원 가입
-	}
 
+	}
 }
