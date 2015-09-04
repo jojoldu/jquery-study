@@ -15,21 +15,23 @@ var user = {
 		
 		this.$el = $('.container');
 
-		this.$el.find('#btnLogin').click(function(){
-			user.login();
-		});
-
 		this.$el.find('#btnSignUp').click(function(){
 			user.showModal();
+		});
+
+		this.$el.find('#btnClose').click(function(){
+			user.closeModal();
+		});	
+
+		this.$el.find('#btnLogin').click(function(){
+			user.login();
 		});
 
 		this.$el.find('#btnSubmit').click(function(){
 			user.signUp();
 		});
 		
-		this.$el.find('#btnClose').click(function(){
-			user.closeModal();
-		});
+
 	},
 
 	showModal : function(){
@@ -48,6 +50,7 @@ var user = {
 	signUp : function(){
 		var email = this.$el.find('#inputEmail').val(),
 			password = this.$el.find('#inputPassword').val(),
+			passwordConfirm = this.$el.find('#inputPasswordConfirm').val(),
 			name = this.$el.find('#inputName').val(),
 			job = this.$el.find('#inputJob').val();
 		
@@ -57,6 +60,11 @@ var user = {
 
 		if(!this.validate()){
 			alert('필수값을 모두 채워주세요');
+			return;
+		}
+
+		if(password !== passwordConfirm){
+			alert('비밀번호가 일치하지 않습니다.');
 			return;
 		}
 
@@ -84,7 +92,7 @@ var user = {
 					return;
 				}		
 			}else{ //가입 중복체크시
-				if(value.email === email){
+				if(value.email === obj.email){
 					result = value;
 					return;
 				}
@@ -92,7 +100,6 @@ var user = {
 
 		});
 		
-
 		return result;
 	},
 	
@@ -140,6 +147,10 @@ var user = {
 		loginUser.email = loginEmail;
 		loginUser.password = loginPassword;
 
-
+		if(this.find(loginUser)){
+			alert('로그인 성공');
+		}else{
+			alert('id와 password를 확인해주세요');
+		}
 	}
 }
