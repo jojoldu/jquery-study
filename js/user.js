@@ -52,9 +52,9 @@ var user = {
 			job = this.$el.find('#inputJob').val();
 		
 
-		// 1. 입력창에서 빈칸은 없는가?
+		// 1. 입력창에서 빈칸은 없는가? 빈칸이 있으면 해당 입력창에 강조효과 주기 & 저장 실패 alert
 
-		// 2. password와 passwordConfirm이 같은가?
+		// 2. password와 passwordConfirm이 같은가? 다르면 패스워드 확인 alert
 
 		// 3. 이미 등록된 사용자가 아닌가?
 
