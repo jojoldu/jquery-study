@@ -28,8 +28,6 @@ var user = {
 		this.$el.find('#btnSubmit').click(function(){
 			user.signUp();
 		});
-
-
 	},
 
 	showModal : function(){
