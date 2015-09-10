@@ -28,6 +28,7 @@ var user = {
 		this.$el.find('#btnSubmit').click(function(){
 			user.signUp();
 		});
+
 	},
 
 	showModal : function(){
@@ -51,12 +52,14 @@ var user = {
 			job = this.$el.find('#inputJob').val();
 		
 
+
 		// 1. 입력창에서 빈칸은 없는가?
 		if(!this.validate()){
 			alert('필수값을 모두 채워주세요');
 			return;
 		}
 		// 2. password와 passwordConfirm이 같은가?
+
 
 		// 3. 이미 등록된 사용자가 아닌가?
 
@@ -80,5 +83,4 @@ var user = {
 
 		return result;
 	}
-
 }
