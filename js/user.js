@@ -52,7 +52,7 @@ var user = {
 			name = this.$el.find('#inputName').val(),
 			job = this.$el.find('#inputJob').val();
 		
-
+		var currentTime = new Date();
 
 		// 1. 입력창에서 빈칸은 없는가?
 		if(!this.validate()){
@@ -73,14 +73,15 @@ var user = {
 		}
 
 		// 4. 위 검증이 끝나면 회원 가입
-		var opj = {
-			email : email,
-			password : password,
-			name : name,
-			job : job
-		};
-		
-		this.save(obj);
+
+		this.save({
+					email : email,
+					password : password,
+					name : name,
+					job : job,
+					joinDate : currentTime,
+					updateDate : currentTime
+		});
 	},
 
 	validate : function(){
@@ -118,19 +119,11 @@ var user = {
 
 	//DB 연동시 수정
 	save : function(obj){
-		var joinDate = new Date(),
-			updateDate = joinDate;
-	
-		try{
-			obj.joinDate = joinDate;
-			obj.updateDate = updateDate;
 
-			users.push(obj);
-		}catch(err){
-			alert('등록이 실패하였습니다.');
-		}
+		users.push(obj);
 		
 		alert('등록 되었습니다.');
+
 		this.closeModal();
 	},
 }
