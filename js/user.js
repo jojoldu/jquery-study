@@ -1,4 +1,5 @@
-
+// DB 연동시 삭제될 부분
+var users = [];
 
 $(function(){
 
@@ -64,8 +65,12 @@ var user = {
             alert('패스워드가 일치하지 않습니다.');
             return;
         }
-
+	
 		// 3. 이미 등록된 사용자가 아닌가?
+		if(this.find(email)){
+			alert('이미 가입된 사용자입니다.');
+			return;
+		}
 
 		// 4. 위 검증이 끝나면 회원 가입
 	},
@@ -85,6 +90,21 @@ var user = {
 			}
 		});
 
+		return result;
+	},
+
+	//DB 연동시 수정
+	find : function(email){
+		var result;
+
+		$.each(users, function(index, value){
+
+			if(value.email === email){
+				result = value;
+				return;
+			}
+		});
+		
 		return result;
 	}
 }
