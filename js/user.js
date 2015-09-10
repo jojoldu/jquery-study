@@ -73,6 +73,14 @@ var user = {
 		}
 
 		// 4. 위 검증이 끝나면 회원 가입
+		var opj = {
+			email : email,
+			password : password,
+			name : name,
+			job : job
+		};
+		
+		this.save(obj);
 	},
 
 	validate : function(){
@@ -106,5 +114,23 @@ var user = {
 		});
 		
 		return result;
-	}
+	},
+
+	//DB 연동시 수정
+	save : function(obj){
+		var joinDate = new Date(),
+			updateDate = joinDate;
+	
+		try{
+			obj.joinDate = joinDate;
+			obj.updateDate = updateDate;
+
+			users.push(obj);
+		}catch(err){
+			alert('등록이 실패하였습니다.');
+		}
+		
+		alert('등록 되었습니다.');
+		this.closeModal();
+	},
 }
