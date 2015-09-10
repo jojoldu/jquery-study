@@ -58,8 +58,12 @@ var user = {
 			alert('필수값을 모두 채워주세요');
 			return;
 		}
+		
 		// 2. password와 passwordConfirm이 같은가?
-
+        if(password !== passwordConfirm){
+            alert('패스워드가 일치하지 않습니다.');
+            return;
+        }
 
 		// 3. 이미 등록된 사용자가 아닌가?
 
