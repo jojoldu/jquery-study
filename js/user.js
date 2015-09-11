@@ -30,6 +30,10 @@ var user = {
 			user.signUp();
 		});
 
+		this.$el.find('#btnLogin').click(function(){
+			user.login();
+		});
+
 	},
 
 	showModal : function(){
@@ -126,4 +130,11 @@ var user = {
 
 		this.closeModal();
 	},
+
+	login : function(){
+		var email = this.$el.find('#loginEmail').val(),
+			password = this.$el.find('#loginPassword').val();
+
+		alert('로그인!');
+	}
 }
