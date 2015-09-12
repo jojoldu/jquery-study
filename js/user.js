@@ -134,7 +134,21 @@ var user = {
 	login : function(){
 		var email = this.$el.find('#loginEmail').val(),
 			password = this.$el.find('#loginPassword').val();
+		
+		var result;
 
-		alert('로그인!');
+		$.each(users, function(index, value){
+
+			if(value.email === email && value.password === password){
+				result = value;
+				return;
+			}
+		});
+
+		if(result){
+			alert('login!');
+		}else{
+			alert('check your email & password');
+		}
 	}
 }
