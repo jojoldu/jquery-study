@@ -1,5 +1,21 @@
 // DB 연동시 삭제될 부분
-var users = [];
+var currentTime = new Date();
+var users = [{
+		email : '1',
+		password : '1',
+		name : '1',
+		job : '1',
+		joinDate : currentTime,
+		updateDate : currentTime
+},
+{
+		email : '2',
+		password : '2',
+		name : '2',
+		job : '2',
+		joinDate : currentTime,
+		updateDate : currentTime
+}];
 
 $(function(){
 
@@ -71,7 +87,7 @@ var user = {
         }
 	
 		// 3. 이미 등록된 사용자가 아닌가?
-		if(this.find(email)){
+		if(this.find({ email : email })){
 			alert('이미 가입된 사용자입니다.');
 			return;
 		}
@@ -107,13 +123,18 @@ var user = {
 	},
 
 	//DB 연동시 수정
-	find : function(email){
+	find : function(obj){
 		var result;
 
 		$.each(users, function(index, value){
 
-			if(value.email === email){
+			if(value.email === obj.email){
 				result = value;
+								
+				if(obj.password && obj.password !== value.password){
+					result = false;
+				}
+
 				return;
 			}
 		});
@@ -134,18 +155,9 @@ var user = {
 	login : function(){
 		var email = this.$el.find('#loginEmail').val(),
 			password = this.$el.find('#loginPassword').val();
-		
-		var result;
 
-		$.each(users, function(index, value){
 
-			if(value.email === email && value.password === password){
-				result = value;
-				return;
-			}
-		});
-
-		if(result){
+		if(this.find({email : email, password : password})){
 			alert('login!');
 		}else{
 			alert('check your email & password');
