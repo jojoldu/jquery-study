@@ -46,6 +46,12 @@ var user = {
 			user.signUp();
 		});
 
+		this.$el.find('#btnLogin').click(function(){
+			//입력창에 입력된 email과 password를 검사해서 일치하면 로그인 alert
+			//아니면 email & password 확인 alert
+			user.login();
+		});	
+
 	},
 
 	showModal : function(){
@@ -68,8 +74,6 @@ var user = {
 			name = this.$el.find('#inputName').val(),
 			job = this.$el.find('#inputJob').val();
 		
-		var currentTime = new Date();
-
 		// 1. 입력창에서 빈칸은 없는가?
 		if(!this.validate()){
 			alert('필수값을 모두 채워주세요');
@@ -89,6 +93,7 @@ var user = {
 		}
 
 		// 4. 위 검증이 끝나면 회원 가입
+		var currentTime = new Date();
 
 		this.save({
 					email : email,
@@ -141,5 +146,5 @@ var user = {
 		alert('등록 되었습니다.');
 
 		this.closeModal();
-	},
+	}
 }
