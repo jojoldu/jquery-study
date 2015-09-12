@@ -6,6 +6,18 @@ $(function(){
 	user.init();
 });
 
+//db연동시 삭제
+var users = [];
+var currentTime = new Date();
+
+users.push({
+		email : '1',
+		password : '1',
+		name : '1',
+		job : '1',
+		joinDate : currentTime,
+		updateDate : currentTime
+});
 
 var user = {
 
