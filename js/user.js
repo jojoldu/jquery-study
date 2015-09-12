@@ -1,5 +1,21 @@
 // DB 연동시 삭제될 부분
-var users = [];
+var currentTime = new Date();
+var users = [{
+		email : '1',
+		password : '1',
+		name : '1',
+		job : '1',
+		joinDate : currentTime,
+		updateDate : currentTime
+},
+{
+		email : '2',
+		password : '2',
+		name : '2',
+		job : '2',
+		joinDate : currentTime,
+		updateDate : currentTime
+}];
 
 $(function(){
 
