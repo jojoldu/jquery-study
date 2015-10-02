@@ -28,6 +28,9 @@ app.get('/user', function(req, res) {
     res.send(users);
 });
 
-  
+app.get('/user/:idx', function(req, res) {
+    res.send(users[req.params.idx]);
+});
+
 app.listen(8080);
 console.log('Express Listening on port 8080...');
