@@ -23,10 +23,11 @@
   },
   "homepage": "https://github.com/jojoldu/jquery-study",
   "dependencies": {
-    "express": "~4.1.2",
     "body-parser": "~1.0.2",
-    "morgan": "~1.0.1",
+    "express": "^4.13.3",
+    "html": "0.0.10",
     "mongoskin": "~1.4.1",
+    "morgan": "~1.0.1",
     "path": "~0.12.7"
   }
 }

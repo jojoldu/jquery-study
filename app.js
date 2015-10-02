@@ -24,7 +24,7 @@ var users = [{
 		updateDate : currentTime
 }];
 
-
+app.use(express.static(path.join(__dirname, '')));
 
 app.get('/login', function(req, res){
 	res.sendFile(path.join(__dirname + '/view/login.html'));
@@ -35,14 +35,9 @@ app.get('/user', function(req, res) {
     res.send(users);
 });
 
-app.get('/user/:id', function(req, res) {
-	var result = {
-					id : req.params.id,
-					name : req.params.id,
-					age : '29'
-				 };
+app.get('/user/:idx', function(req, res) {
 	res.header("Content-Type", "application/json; charset=utf-8");
-    res.json(result);
+    res.jsonp(users[idx]);
 });
 
 app.post('/user', function(req, res){
