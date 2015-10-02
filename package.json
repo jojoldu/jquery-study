@@ -26,6 +26,7 @@
     "express": "~4.1.2",
     "body-parser": "~1.0.2",
     "morgan": "~1.0.1",
-    "mongoskin": "~1.4.1"
+    "mongoskin": "~1.4.1",
+    "path": "~0.12.7"
   }
 }
