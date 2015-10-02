@@ -90,18 +90,18 @@ var user = {
 		if(this.find({ email : email })){
 			alert('이미 가입된 사용자입니다.');
 			return;
+		}else{
+			// 4. 위 검증이 끝나면 회원 가입
+
+			this.save({
+						email : email,
+						password : password,
+						name : name,
+						job : job,
+						joinDate : currentTime,
+						updateDate : currentTime
+			});		
 		}
-
-		// 4. 위 검증이 끝나면 회원 가입
-
-		this.save({
-					email : email,
-					password : password,
-					name : name,
-					job : job,
-					joinDate : currentTime,
-					updateDate : currentTime
-		});
 	},
 
 	validate : function(){
@@ -126,20 +126,17 @@ var user = {
 	find : function(obj){
 		var result;
 
-		$.each(users, function(index, value){
-
-			if(value.email === obj.email){
-				result = value;
-								
-				if(obj.password && obj.password !== value.password){
-					result = false;
-				}
-
-				return;
+		$.ajax({
+			method: 'POST',
+			url: 'email',
+			data: obj,
+			dataType: 'json',
+			success: function(data){
+				alert(data.status);
+				return data.status;
 			}
+
 		});
-		
-		return result;
 	},
 
 	//DB 연동시 수정
