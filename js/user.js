@@ -48,7 +48,7 @@ var user = {
 
 		this.$el.find('#btnLogin').click(function(){
 			user.login();
-		});
+		});	
 
 	},
 
@@ -156,11 +156,11 @@ var user = {
 		var email = this.$el.find('#loginEmail').val(),
 			password = this.$el.find('#loginPassword').val();
 
-
 		if(this.find({email : email, password : password})){
 			alert('login!');
 		}else{
 			alert('check your email & password');
 		}
+
 	}
 }
