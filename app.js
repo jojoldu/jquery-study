@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-
+var path = require('path');
 
 /*
 	DB 연동시 삭제될 부분
@@ -23,6 +23,11 @@ var users = [{
 		updateDate : currentTime
 }];
 
+app.use(express.static(path.join(__dirname, '')));
+
+app.get('/', function(req, res){
+	res.sendFile(path.join(__dirname + '/view/login.html'));
+})
 
 app.get('/user', function(req, res) {
     res.send(users);
