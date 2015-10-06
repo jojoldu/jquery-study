@@ -40,20 +40,20 @@ app.get('/user/:idx', function(req, res) {
     res.send(users[req.params.idx]);
 });
 
-
-app.post('/email', function(req, res){
-	var email = req.body.email;
+app.post('/user', function(req, res){
+	var obj = req.body;
+	
 	var result = {
 		status : false
 	};
 
 	for(var i=0;i<users.length;i++){
-		if(email === users[i].email){
+		if(obj.email === users[i].email){
 			result.status = true;
 			break;
 		}
 	}
-	res.send(result);
+	users.push(obj);
 });
 
 

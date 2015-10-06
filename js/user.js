@@ -85,23 +85,24 @@ var user = {
             alert('패스워드가 일치하지 않습니다.');
             return;
         }
-	
+		
+		var uniqueFlag = this.find({ email : email });
+		
 		// 3. 이미 등록된 사용자가 아닌가?
-		if(this.find({ email : email })){
+		if(uniqueFlag){
 			alert('이미 가입된 사용자입니다.');
 			return;
-		}else{
-			// 4. 위 검증이 끝나면 회원 가입
-
-			this.save({
-						email : email,
-						password : password,
-						name : name,
-						job : job,
-						joinDate : currentTime,
-						updateDate : currentTime
-			});		
 		}
+
+		// 4. 위 검증이 끝나면 회원 가입
+		this.save({
+					email : email,
+					password : password,
+					name : name,
+					job : job,
+					joinDate : currentTime,
+					updateDate : currentTime
+		});	
 	},
 
 	validate : function(){
