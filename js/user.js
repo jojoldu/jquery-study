@@ -86,8 +86,8 @@ var user = {
             return;
         }
 		
-		// 3. 이미 등록된 사용자가 아닌가?
-		this.find({
+		// 저장
+		this.save({
 					email : email,
 					password : password,
 					name : name,
@@ -129,6 +129,7 @@ var user = {
 				
 				alert(data.status);
 				
+				//data.status는 조작 가능
 				if(!data.status){
 					_.save(obj);
 					_.closeModal();
@@ -142,12 +143,23 @@ var user = {
 
 	//DB 연동시 수정
 	save : function(obj){
+		var _ = this;
 
-		users.push(obj);
-		
-		alert('등록 되었습니다.');
-
-		this.closeModal();
+		$.ajax({
+			method: 'POST',
+			url: 'user',
+			data: obj,
+			dataType: 'json',
+			success: function(data){
+				
+				if(data.status){
+					alert('등록 되었습니다.');
+					_.closeModal();
+				}else{
+					alert('이미 가입된 사용자입니다.');
+				}
+			}
+		});		
 	},
 
 	login : function(){
