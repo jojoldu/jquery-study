@@ -56,7 +56,23 @@ app.post('/user', function(req, res){
 	if(result.status){
 		users.push(obj);
 	}
+
+	res.send(result);
+});
+
+app.post('/login', function(req, res){
+	var obj = req.body;
 	
+	var result = {
+		status : false
+	};
+
+	for(var i=0;i<users.length;i++){
+		if(obj.email === users[i].email && obj.password === users[i].password){
+			result.status = true;
+			break;
+		}
+	}
 	res.send(result);
 });
 

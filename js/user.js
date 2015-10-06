@@ -151,7 +151,7 @@ var user = {
 			data: obj,
 			dataType: 'json',
 			success: function(data){
-				
+
 				if(data.status){
 					alert('등록 되었습니다.');
 					_.closeModal();
@@ -164,13 +164,22 @@ var user = {
 
 	login : function(){
 		var email = this.$el.find('#loginEmail').val(),
-			password = this.$el.find('#loginPassword').val();
+			password = this.$el.find('#loginPassword').val(),
+			obj = {email : email, password : password};
 
-		if(this.find({email : email, password : password})){
-			alert('login!');
-		}else{
-			alert('check your email & password');
-		}
-
+		$.ajax({
+			method: 'POST',
+			url: 'login',
+			data: obj,
+			dataType: 'json',
+			success: function(data){
+				
+				if(data.status){
+					alert('로그인 성공!');
+				}else{
+					alert('ID와 비밀번호를 확인하세요');
+				}
+			}
+		});	
 	}
 }
