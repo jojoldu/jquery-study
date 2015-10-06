@@ -40,7 +40,8 @@ app.get('/user/:idx', function(req, res) {
     res.send(users[req.params.idx]);
 });
 
-app.post('/user', function(req, res){
+
+app.post('/email', function(req, res){
 	var obj = req.body;
 	
 	var result = {
@@ -53,7 +54,7 @@ app.post('/user', function(req, res){
 			break;
 		}
 	}
-	users.push(obj);
+	res.send(result);
 });
 
 

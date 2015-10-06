@@ -86,23 +86,15 @@ var user = {
             return;
         }
 		
-		var uniqueFlag = this.find({ email : email });
-		
 		// 3. 이미 등록된 사용자가 아닌가?
-		if(uniqueFlag){
-			alert('이미 가입된 사용자입니다.');
-			return;
-		}
-
-		// 4. 위 검증이 끝나면 회원 가입
-		this.save({
+		this.find({
 					email : email,
 					password : password,
 					name : name,
 					job : job,
 					joinDate : currentTime,
 					updateDate : currentTime
-		});	
+		});
 	},
 
 	validate : function(){
@@ -126,6 +118,7 @@ var user = {
 	//DB 연동시 수정
 	find : function(obj){
 		var result;
+		var _ = this;
 
 		$.ajax({
 			method: 'POST',
@@ -133,8 +126,15 @@ var user = {
 			data: obj,
 			dataType: 'json',
 			success: function(data){
+				
 				alert(data.status);
-				return data.status;
+				
+				if(!data.status){
+					_.save(obj);
+					_.closeModal();
+				}else{
+					alert('이미 가입된 사용자입니다.');
+				}
 			}
 
 		});
