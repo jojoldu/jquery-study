@@ -40,21 +40,59 @@ app.get('/user/:idx', function(req, res) {
     res.send(users[req.params.idx]);
 });
 
+app.post('/user', function(req, res){
+	var obj = req.body;
+	var result = {
+		status : true
+	};
 
-app.post('/email', function(req, res){
-	var email = req.body.email;
+	for(var i=0;i<users.length;i++){
+		if(obj.email === users[i].email){
+			result.status = false;
+			break;
+		}
+	}
+
+	if(result.status){
+		users.push(obj);
+	}
+
+	res.send(result);
+});
+
+app.post('/login', function(req, res){
+	var obj = req.body;
+	
 	var result = {
 		status : false
 	};
 
 	for(var i=0;i<users.length;i++){
-		if(email === users[i].email){
+		if(obj.email === users[i].email && obj.password === users[i].password){
 			result.status = true;
 			break;
 		}
 	}
 	res.send(result);
 });
+
+app.post('/email', function(req, res){
+	var obj = req.body;
+	
+	var result = {
+		status : false
+	};
+
+	for(var i=0;i<users.length;i++){
+		if(obj.email === users[i].email){
+			result.status = true;
+			break;
+		}
+	}
+	res.send(result);
+});
+
+
 
 
 app.listen(8080);

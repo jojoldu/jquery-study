@@ -85,23 +85,16 @@ var user = {
             alert('패스워드가 일치하지 않습니다.');
             return;
         }
-	
-		// 3. 이미 등록된 사용자가 아닌가?
-		if(this.find({ email : email })){
-			alert('이미 가입된 사용자입니다.');
-			return;
-		}else{
-			// 4. 위 검증이 끝나면 회원 가입
-
-			this.save({
-						email : email,
-						password : password,
-						name : name,
-						job : job,
-						joinDate : currentTime,
-						updateDate : currentTime
-			});		
-		}
+		
+		// 저장
+		this.save({
+					email : email,
+					password : password,
+					name : name,
+					job : job,
+					joinDate : currentTime,
+					updateDate : currentTime
+		});
 	},
 
 	validate : function(){
@@ -125,6 +118,7 @@ var user = {
 	//DB 연동시 수정
 	find : function(obj){
 		var result;
+		var _ = this;
 
 		$.ajax({
 			method: 'POST',
@@ -132,8 +126,16 @@ var user = {
 			data: obj,
 			dataType: 'json',
 			success: function(data){
+				
 				alert(data.status);
-				return data.status;
+				
+				//data.status는 조작 가능
+				if(!data.status){
+					_.save(obj);
+					_.closeModal();
+				}else{
+					alert('이미 가입된 사용자입니다.');
+				}
 			}
 
 		});
@@ -141,23 +143,43 @@ var user = {
 
 	//DB 연동시 수정
 	save : function(obj){
+		var _ = this;
 
-		users.push(obj);
-		
-		alert('등록 되었습니다.');
+		$.ajax({
+			method: 'POST',
+			url: 'user',
+			data: obj,
+			dataType: 'json',
+			success: function(data){
 
-		this.closeModal();
+				if(data.status){
+					alert('등록 되었습니다.');
+					_.closeModal();
+				}else{
+					alert('이미 가입된 사용자입니다.');
+				}
+			}
+		});		
 	},
 
 	login : function(){
 		var email = this.$el.find('#loginEmail').val(),
-			password = this.$el.find('#loginPassword').val();
+			password = this.$el.find('#loginPassword').val(),
+			obj = {email : email, password : password};
 
-		if(this.find({email : email, password : password})){
-			alert('login!');
-		}else{
-			alert('check your email & password');
-		}
-
+		$.ajax({
+			method: 'POST',
+			url: 'login',
+			data: obj,
+			dataType: 'json',
+			success: function(data){
+				
+				if(data.status){
+					alert('로그인 성공!');
+				}else{
+					alert('ID와 비밀번호를 확인하세요');
+				}
+			}
+		});	
 	}
 }
