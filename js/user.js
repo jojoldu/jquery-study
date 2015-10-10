@@ -166,11 +166,11 @@ var user = {
 		var email = this.$el.find('#loginEmail').val(),
 			password = this.$el.find('#loginPassword').val();
 
-		if(this.find({email : email, password : password})){
-			alert('login!');
-		}else{
-			alert('check your email & password');
-		}
+		/*
+			1. ajax로 email과 패스워드 전송
+			2. 로그인 성공 : alert('로그인 성공');
+			   로그인 실패 : alert('이메일, 패스워드 확인하세요''); 
+		*/
 
 	}
 }

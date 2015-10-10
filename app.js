@@ -42,6 +42,7 @@ app.get('/user/:idx', function(req, res) {
 
 app.post('/user', function(req, res){
 	var obj = req.body;
+
 	var result = {
 		status : true
 	};
