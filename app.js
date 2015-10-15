@@ -76,23 +76,9 @@ app.post('/login', function(req, res){
 	res.send(result);
 });
 
-app.post('/email', function(req, res){
-	var obj = req.body;
-	
-	var result = {
-		status : false
-	};
-
-	for(var i=0;i<users.length;i++){
-		if(obj.email === users[i].email){
-			result.status = true;
-			break;
-		}
-	}
-	res.send(result);
+app.get('/user/list', function(req, res){
+	res.sendFile(path.join(__dirname + '/view/member.html'));
 });
-
-
 
 
 app.listen(8080);
