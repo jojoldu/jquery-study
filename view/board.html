@@ -12,37 +12,74 @@
 
     <script type="text/javascript" src="../js/board.js"></script>
     
-    <title>로그인</title>
+    <title>글 목록</title>
 </head>
 <body>
-    <div class="container">
-        <form class="form-signin">
-            <h2 class="form-signin-heading">Please sign in</h2>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">MyBoard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">설정</a></li>
+            <li><a href="#">프로필</a></li>
+            <li><a href="#">도움말</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
 
-            <p>
-                <input type="email" id="loginEmail" class="form-control required" placeholder="Email">
-                <font color="red" style="display:none;"> Email은 필수 입력입니다.</font>
-            </p>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <label class="sr-only">(current)</label></a></li>
+            <li><a href="#">카테고리1</a></li>
+            <li><a href="#">카테고리2</a></li>
+            <li><a href="#">카테고리3</a></li>
+          </ul>
+        </div>
 
-            <p>
-                <input type="password" id="loginPassword" class="form-control required" placeholder="Password">
-                <font color="red" style="display:none;"> Password는 필수 입력입니다.</font>
-            </p>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="boardMain">
+          <h1 class="page-header">글 목록</h1>
+          <div class="row">
+            <div class="pull-right">
+              <button type = "button" class="btn btn-primary" data-toggle="collapse" data-target="#newBoard" aria-expanded="false" aria-controls="collapseExample" id="btnAdd">작성</button>
+            </div>
+          </div>
+          <div class="collapse" id="newBoard">
+            <textarea class="form-control" rows="3">
+            </textarea>
 
-            <p>
-                <button type="button" id="btnLogin" class="btn btn-lg btn-primary btn-block">Log in</button>
-                <button type="button" id="btnSignUp" class="btn btn-lg btn-success btn-block">Sign up</button>
-            </p>
-        </form>
 
-        <div id="userModal" class="modal fade" role="dialog">
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped" id="tboard">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>제목</th>
+                  <th>내용</th>
+                  <th>작성자</th>
+                  <th>작성일</th>
+                  <th>조회</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+
+          <div id="boardCollapse" class="modal fade" role="dialog">
             <div class="modal-dialog">
             
               <div class="modal-content">
                 
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title"> 회원 가입 </h4>
+                  <h4 class="modal-title"> 회원 정보 </h4>
                 </div>
               
                 <div class="modal-body">
@@ -51,35 +88,21 @@
                     <div class="form-group">
                       <label for="inputEmail" class="col-md-2 control-label">Email</label>                
                       <div class="col-md-10">
-                        <input type="text" class="form-control signForms" id="inputEmail">
-                      </div>     
-                    </div> 
-
-                    <div class="form-group">
-                      <label for="inputPassword" class="col-md-2 control-label">Password</label>                
-                      <div class="col-md-10">
-                        <input type="password" class="form-control signForms" id="inputPassword">
-                      </div>     
-                    </div> 
-
-                    <div class="form-group">
-                      <label for="inputPasswordConfirm" class="col-md-2 control-label">Password confirm</label>                
-                      <div class="col-md-10">
-                        <input type="password" class="form-control signForms" id="inputPasswordConfirm">
+                        <input type="text" class="form-control" id="inputEmail">
                       </div>     
                     </div> 
 
                     <div class="form-group">
                       <label for="inputName" class="col-md-2 control-label">이름</label>                
                       <div class="col-md-10">
-                        <input type="text" class="form-control signForms" id="inputName">
+                        <input type="text" class="form-control" id="inputName">
                       </div>     
                     </div> 
 
                     <div class="form-group">
                       <label for="inputJob" class="col-md-2 control-label">직업</label>                
                       <div class="col-md-10">
-                        <input type="text" class="form-control signForms" id="inputJob">
+                        <input type="text" class="form-control" id="inputJob">
                       </div>     
                     </div>
 
@@ -96,5 +119,7 @@
               </div>
             </div>
           </div>
-    </div> <!-- /container -->
+        </div>
+      </div>
+    </div>
 </body>

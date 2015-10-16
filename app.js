@@ -24,6 +24,9 @@ var users = [{
 		updateDate : currentTime
 }];
 
+//글 목록
+var boards = [];
+
 app.use(express.static(path.join(__dirname, '')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -76,8 +79,8 @@ app.post('/login', function(req, res){
 	res.send(result);
 });
 
-app.get('/user/list', function(req, res){
-	res.sendFile(path.join(__dirname + '/view/member.html'));
+app.get('/board/list', function(req, res){
+	res.sendFile(path.join(__dirname + '/view/board.html'));
 });
 
 
