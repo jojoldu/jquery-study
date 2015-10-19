@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 /*
 	DB 연동시 삭제될 부분
@@ -27,6 +28,13 @@ var users = [{
 app.use(express.static(path.join(__dirname, '')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(session({
+  secret: 'jquery salt',
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 app.get('/', function(req, res){
 	res.sendFile(path.join(__dirname + '/view/login.html'));
@@ -70,6 +78,7 @@ app.post('/login', function(req, res){
 	for(var i=0;i<users.length;i++){
 		if(obj.email === users[i].email && obj.password === users[i].password){
 			result.status = true;
+			req.session.user = users[i];
 			break;
 		}
 	}
@@ -92,7 +101,9 @@ app.post('/email', function(req, res){
 	res.send(result);
 });
 
-
+app.get('/session', function(req, res){
+	res.send(req.session.user);
+});
 
 
 app.listen(8080);
