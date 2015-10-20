@@ -155,9 +155,8 @@ var user = {
 			data: obj,
 			dataType: 'json',
 			success: function(data){
-				
 				if(data.status){
-					location.href=location.origin+'/member';
+					location.href=location.origin+'/board/list';
 				}else{
 					alert('ID와 비밀번호를 확인하세요');
 				}
