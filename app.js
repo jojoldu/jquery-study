@@ -88,6 +88,18 @@ app.post('/login', function(req, res){
 	res.send(result);
 });
 
+app.get('/profile', function(req, res){
+	var user = {},
+		session = req.session.user;
+
+	for(var prop in obj){
+		if(obj.hasOwnProperty(prop) && prop === 'password'){
+			user[prop] = obj[prop];
+		}
+	}
+	res.send(user);
+});
+
 app.get('/board/list', function(req, res){
 	if(!req.session.user){
 		res.redirect('/');
