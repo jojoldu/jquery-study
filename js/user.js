@@ -175,7 +175,7 @@ var user = {
 			success: function(data){
 				
 				if(data.status){
-					alert('로그인 성공!');
+					location.href=location.origin+"/board/list";
 				}else{
 					alert('ID와 비밀번호를 확인하세요');
 				}
