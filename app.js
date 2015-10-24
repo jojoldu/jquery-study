@@ -88,16 +88,8 @@ app.post('/login', function(req, res){
 	res.send(result);
 });
 
-app.get('/profile', function(req, res){
-	var user = {},
-		session = req.session.user;
-
-	for(var prop in obj){
-		if(obj.hasOwnProperty(prop) && prop === 'password'){
-			user[prop] = obj[prop];
-		}
-	}
-	res.send(user);
+app.get('/session', function(req, res){
+	res.send(req.session.user);
 });
 
 app.get('/board/list', function(req, res){
@@ -107,10 +99,40 @@ app.get('/board/list', function(req, res){
 	res.sendFile(path.join(__dirname + '/view/board.html'));
 });
 
-app.get('/session', function(req, res){
-	res.send(req.session.user);
+app.get('/profile', function(req, res){
+	var user = {},
+		loginUser = req.session.user;
+
+	for(var prop in loginUser){
+		if(loginUser.hasOwnProperty(prop) && prop !== 'password'){
+			user[prop] = loginUser[prop];
+		}
+	}
+	res.send(user);
 });
 
+app.post('/profile', function(req, res){
+	var obj = req.body,
+		loginUser = req.session.user;
+	
+	var result = {
+		status : false
+	};
+
+	if(obj.email !== loginUser.email || obj.originPassword !== loginUser.password){
+		res.send(result);
+	}
+
+
+	for(var i=0;i<users.length;i++){
+		if(obj.email === users[i].email && obj.password === users[i].password){
+			result.status = true;
+			req.session.user = users[i];
+			break;
+		}
+	}
+	res.send(result);
+});
 
 app.listen(8080);
 console.log('Express Listening on port 8080...');
