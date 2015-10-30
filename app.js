@@ -86,7 +86,7 @@ app.post('/login', function(req, res){
 	for(var i=0;i<users.length;i++){
 		if(obj.email === users[i].email && obj.password === users[i].password){
 			result.status = true;
-			req.session.user = users[i];
+			req.session.userIdx = i;
 			break;
 		}
 	}
@@ -94,11 +94,12 @@ app.post('/login', function(req, res){
 });
 
 app.get('/session', function(req, res){
-	res.send(req.session.user);
+	res.send(req.session.userIdx);
 });
 
 app.get('/board/list', function(req, res){
-	if(!req.session.user){
+	var user = users[req.session.userIdx];
+	if(!user){
 		res.redirect('/');
 	}
 	res.sendFile(path.join(__dirname + '/view/board.html'));
@@ -106,7 +107,7 @@ app.get('/board/list', function(req, res){
 
 app.get('/profile', function(req, res){
 	var user = {},
-		loginUser = req.session.user;
+		loginUser = users[req.session.userIdx];
 
 	for(var prop in loginUser){
 		if(loginUser.hasOwnProperty(prop) && prop !== 'password'){
@@ -118,13 +119,13 @@ app.get('/profile', function(req, res){
 
 app.post('/profile', function(req, res){
 	var obj = req.body,
-		loginUser = req.session.user;
+		loginUser = users[req.session.userIdx];
 	var result={};
 
 	if(!loginUser){
 		res.redirect('/');
 	}
-	
+
 	if(obj.originPassword != loginUser.password){
 		console.log('password not matched');
 		result.status=false;
@@ -146,12 +147,13 @@ app.post('/profile', function(req, res){
 });
 
 app.get('/logout', function(req, res){
-	req.session.user=null;
-	res.send(req.session.user);
+	req.session.userIdx=null;
+	res.send(req.session.userIdx);
 });
 
 app.post('/email', function(req, res){
-	var obj = req.body;
+	var obj = req.body,
+		loginUser = users[req.session.userIdx];
 	
 	var result = {
 		status : false
@@ -160,13 +162,6 @@ app.post('/email', function(req, res){
 	if(obj.email !== loginUser.email || obj.originPassword !== loginUser.password){
 		res.send(result);
 	}
-});
-
-app.get('/board/list', function(req, res){
-	if(!req.session.user){
-		res.redirect('/');
-	}
-	res.sendFile(path.join(__dirname + '/view/board.html'));
 });
 
 app.listen(8080);

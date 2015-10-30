@@ -71,11 +71,12 @@ var gnb = {
 				if(!result.status){
 					alert('비밀번호가 잘못되었습니다.');
 					return false;
-				}
+				} 
 				var user = result.user;
 				alert('회원정보가 변경되었습니다.');
 				_.$el.find('#my_name').val(user.name);
 				_.$el.find('#my_job').val(user.job);
+				_.closeModal();
 				return false;
 			}
 		});
