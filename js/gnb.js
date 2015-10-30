@@ -9,16 +9,16 @@ var gnb = {
 		var _ = this;
 		_.$el = $('#gnb');
 
-		this.$el.find('#btnProfile').click(function(){
+		this.$el.find('#btn_profile').click(function(){
 			_.showModal();
 		});
 
-		this.$el.find('#btnProfileClose').click(function(){
+		this.$el.find('#btn_profile_close').click(function(){
 			_.closeModal();
 		});	
 
-		this.$el.find('#btnProfileSubmit').click(function(){
-			_.signUp();
+		this.$el.find('#btn_profile_submit').click(function(){
+			_.saveProfile();
 		});
 	},
 
@@ -28,11 +28,11 @@ var gnb = {
 	},
 	
 	closeModal : function(){
-		this.$el.find('#profileModal').modal('hide');
+		this.$el.find('#profile_modal').modal('hide');
 	},
 
 	resetModal : function(){
-		this.$el.find('.signForms').val('');
+		this.$el.find('.sign_forms').val('');
 	},
 
 	getProfile : function(){
@@ -43,11 +43,10 @@ var gnb = {
 			url: '/profile',
 			dataType: 'json',
 			success: function(data){
-				_.$el.find('#email').val(data.email);
-				_.$el.find('#name').val(data.name);
-				_.$el.find('#job').val(data.job);
-
-				_.$el.find('#profileModal').modal();
+				_.$el.find('#my_email').val(data.email);
+				_.$el.find('#my_name').val(data.name);
+				_.$el.find('#my_job').val(data.job);
+				_.$el.find('#profile_modal').modal();
 				return false;
 			}
 		});
@@ -56,11 +55,11 @@ var gnb = {
 	saveProfile : function(){
 		var _ = this;
 		var obj = {
-			email : _.$el.find('#email'),
-			originPassword : _.$el.find('#originPassword'),
-			newPassword : _.$el.find('#newPassword'),
-			name : _.$el.find('#name'),
-			job : _.$el.find('#job'),
+			email : _.$el.find('#my_email').val(),
+			originPassword : _.$el.find('#my_origin_password').val(),
+			newPassword : _.$el.find('#my_new_password').val(),
+			name : _.$el.find('#my_name').val(),
+			job : _.$el.find('#my_job').val(),
 		};
 
 		$.ajax({
@@ -68,12 +67,15 @@ var gnb = {
 			url: '/profile',
 			data: obj,
 			dataType: 'json',
-			success: function(data){
-				_.$el.find('#email').val(data.email);
-				_.$el.find('#name').val(data.name);
-				_.$el.find('#job').val(data.job);
-
-				_.$el.find('#profileModal').modal();
+			success: function(result){
+				if(!result.status){
+					alert('비밀번호가 잘못되었습니다.');
+					return false;
+				}
+				var user = result.user;
+				alert('회원정보가 변경되었습니다.');
+				_.$el.find('#my_name').val(user.name);
+				_.$el.find('#my_job').val(user.job);
 				return false;
 			}
 		});

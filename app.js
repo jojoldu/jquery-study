@@ -3,10 +3,7 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-<<<<<<< HEAD
 
-=======
->>>>>>> feature/session-profile
 /*
 	DB 연동시 삭제될 부분
 */
@@ -89,11 +86,7 @@ app.post('/login', function(req, res){
 	for(var i=0;i<users.length;i++){
 		if(obj.email === users[i].email && obj.password === users[i].password){
 			result.status = true;
-<<<<<<< HEAD
 			req.session.user = users[i];
-=======
-			req.session.user=users[i];
->>>>>>> feature/session-profile
 			break;
 		}
 	}
@@ -104,7 +97,6 @@ app.get('/session', function(req, res){
 	res.send(req.session.user);
 });
 
-<<<<<<< HEAD
 app.get('/board/list', function(req, res){
 	if(!req.session.user){
 		res.redirect('/');
@@ -127,7 +119,32 @@ app.get('/profile', function(req, res){
 app.post('/profile', function(req, res){
 	var obj = req.body,
 		loginUser = req.session.user;
-=======
+	var result={};
+
+	if(!loginUser){
+		res.redirect('/');
+	}
+	
+	if(obj.originPassword != loginUser.password){
+		console.log('password not matched');
+		result.status=false;
+		res.send(result);
+	}else{
+		for(var i=0;i<users.length;i++){
+			if(obj.email === users[i].email){
+				console.log('success');
+				users[i].password = obj.newPassword;
+				users[i].job = obj.job;
+				users[i].name = obj.name;
+				result.user = users[i];
+				result.status = true;
+				break;
+			}
+		}
+		res.send(result);
+	}
+});
+
 app.get('/logout', function(req, res){
 	req.session.user=null;
 	res.send(req.session.user);
@@ -135,7 +152,6 @@ app.get('/logout', function(req, res){
 
 app.post('/email', function(req, res){
 	var obj = req.body;
->>>>>>> feature/session-profile
 	
 	var result = {
 		status : false
@@ -144,20 +160,8 @@ app.post('/email', function(req, res){
 	if(obj.email !== loginUser.email || obj.originPassword !== loginUser.password){
 		res.send(result);
 	}
-
-
-	for(var i=0;i<users.length;i++){
-		if(obj.email === users[i].email && obj.password === users[i].password){
-			result.status = true;
-			req.session.user = users[i];
-			break;
-		}
-	}
-	res.send(result);
 });
 
-<<<<<<< HEAD
-=======
 app.get('/board/list', function(req, res){
 	if(!req.session.user){
 		res.redirect('/');
@@ -165,6 +169,5 @@ app.get('/board/list', function(req, res){
 	res.sendFile(path.join(__dirname + '/view/board.html'));
 });
 
->>>>>>> feature/session-profile
 app.listen(8080);
 console.log('Express Listening on port 8080...');
