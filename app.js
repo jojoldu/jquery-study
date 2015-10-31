@@ -108,7 +108,7 @@ app.get('/profile', function(req, res){
 	var user = {},
 		loginUser = req.session.user;
 
-	for(var prop in loginUser){
+	for(var prop in loginUser ){
 		if(loginUser.hasOwnProperty(prop) && prop !== 'password'){
 			user[prop] = loginUser[prop];
 		}

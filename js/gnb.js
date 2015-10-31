@@ -9,30 +9,33 @@ var gnb = {
 		var _ = this;
 		_.$el = $('#gnb');
 
-		this.$el.find('#btn_profile').click(function(){
+		_.$el.find('#btn_profile').click(function(){
 			_.showModal();
 		});
 
-		this.$el.find('#btn_profile_close').click(function(){
+		_.$el.find('#btn_profile_close').click(function(){
 			_.closeModal();
 		});	
 
-		this.$el.find('#btn_profile_submit').click(function(){
+		_.$el.find('#btn_profile_submit').click(function(){
 			_.saveProfile();
 		});
 	},
 
 	showModal : function(){
-		this.resetModal();
-		this.getProfile();
+		var _ = this;
+		_.resetModal();
+		_.getProfile();
 	},
 	
 	closeModal : function(){
-		this.$el.find('#profile_modal').modal('hide');
+		var _ = this;
+		_.$el.find('#profile_modal').modal('hide');
 	},
 
 	resetModal : function(){
-		this.$el.find('.sign_forms').val('');
+		var _ = this;
+		_.$el.find('.sign_forms').val('');
 	},
 
 	getProfile : function(){
