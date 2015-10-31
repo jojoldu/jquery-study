@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+
 /*
 	DB 연동시 삭제될 부분
 */
@@ -24,6 +25,9 @@ var users = [{
 		updateDate : currentTime
 }];
 
+//글 목록
+var boards = [];
+
 app.use(express.static(path.join(__dirname, '')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -32,6 +36,13 @@ app.use(session({
 	resave:false,
 	saveUninitalized:true
 }));
+
+app.use(session({
+  secret: 'jquery salt',
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 app.get('/', function(req, res){
 	res.sendFile(path.join(__dirname + '/view/login.html'));
@@ -75,7 +86,7 @@ app.post('/login', function(req, res){
 	for(var i=0;i<users.length;i++){
 		if(obj.email === users[i].email && obj.password === users[i].password){
 			result.status = true;
-			req.session.user=users[i];
+			req.session.user = users[i];
 			break;
 		}
 	}
@@ -84,6 +95,54 @@ app.post('/login', function(req, res){
 
 app.get('/session', function(req, res){
 	res.send(req.session.user);
+});
+
+app.get('/board/list', function(req, res){
+	if(!req.session.user){
+		res.redirect('/');
+	}
+	res.sendFile(path.join(__dirname + '/view/board.html'));
+});
+
+app.get('/profile', function(req, res){
+	var user = {},
+		loginUser = req.session.user;
+
+	for(var prop in loginUser ){
+		if(loginUser.hasOwnProperty(prop) && prop !== 'password'){
+			user[prop] = loginUser[prop];
+		}
+	}
+	res.send(user);
+});
+
+app.post('/profile', function(req, res){
+	var obj = req.body,
+		loginUser = req.session.user;
+	var result={};
+
+	if(!loginUser){
+		res.redirect('/');
+	}
+	
+	if(obj.originPassword != loginUser.password){
+		console.log('password not matched');
+		result.status=false;
+		res.send(result);
+	}else{
+		for(var i=0;i<users.length;i++){
+			if(obj.email === users[i].email){
+				console.log('success');
+				users[i].password = obj.newPassword;
+				users[i].job = obj.job;
+				users[i].name = obj.name;
+				result.user = users[i];
+				result.status = true;
+				break;
+			}
+		}
+		res.send(result);
+	}
 });
 
 app.get('/logout', function(req, res){
@@ -98,13 +157,9 @@ app.post('/email', function(req, res){
 		status : false
 	};
 
-	for(var i=0;i<users.length;i++){
-		if(obj.email === users[i].email){
-			result.status = true;
-			break;
-		}
+	if(obj.email !== loginUser.email || obj.originPassword !== loginUser.password){
+		res.send(result);
 	}
-	res.send(result);
 });
 
 app.get('/board/list', function(req, res){
