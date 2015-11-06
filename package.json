@@ -25,10 +25,10 @@
   "dependencies": {
     "body-parser": "~1.0.2",
     "express": "~4.13.3",
-    "express-session": "^1.11.3",
-    "mongoskin": "~1.4.1",
+    "express-session": "~1.11.3",
+    "mongoskin": "~1.4.13",
     "morgan": "~1.0.1",
     "path": "^0.12.7",
-    "express-session": "~1.11.3"
+    "mongodb": "~1.4.39"
   }
 }
