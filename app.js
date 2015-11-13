@@ -5,15 +5,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoskin = require('mongoskin');
 
-dbUrl = 'mongodb://@localhost:27017/front';
-db = mongoskin.db(dbUrl, {safe:true});
-collections = {
-	users : db.collection('users')
-};
-
-
-//글 목록
-var boards = [];
+var db = mongoskin.db("mongodb://localhost:27017/front", {native_parser:true});
+db.bind('users');
 
 app.use(express.static(path.join(__dirname, '')));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,19 +17,19 @@ app.use(session({
 	saveUninitalized:true
 }));
 
-app.use(session({
-  secret: 'jquery salt',
-  resave: false,
-  saveUninitialized: true
-}));
-
 
 app.get('/', function(req, res){
 	res.sendFile(path.join(__dirname + '/view/login.html'));
 })
 
 app.get('/user', function(req, res) {
-    res.send(users);
+    db.users.find().toArray(function(err, items){
+		if(err){
+			console.log('get user list error');
+		}
+		db.close();
+		res.send(items);
+	});
 });
 
 app.get('/user/:idx', function(req, res) {
@@ -46,21 +39,26 @@ app.get('/user/:idx', function(req, res) {
 app.post('/user', function(req, res){
 	var obj = req.body;
 	var result = {
-		status : true
+		status : false
 	};
 
-	for(var i=0;i<users.length;i++){
-		if(obj.email === users[i].email){
-			result.status = false;
-			break;
+    db.users.findOne({email:obj.email}, function(err, user){
+		if(err){
+			console.log('user find error in save');
 		}
-	}
 
-	if(result.status){
-		users.push(obj);
-	}
-
-	res.send(result);
+		if(!user){
+            db.users.save(obj, function(err){
+				if(err){
+					console.log('user save error');
+				}
+				result.status = true;
+                res.send(result);
+			});
+		}else{
+            res.send(result);
+        }
+	});
 });
 
 app.post('/login', function(req, res){
@@ -135,18 +133,6 @@ app.post('/profile', function(req, res){
 app.get('/logout', function(req, res){
 	req.session.user=null;
 	res.send(req.session.user);
-});
-
-app.post('/email', function(req, res){
-	var obj = req.body;
-	
-	var result = {
-		status : false
-	};
-
-	if(obj.email !== loginUser.email || obj.originPassword !== loginUser.password){
-		res.send(result);
-	}
 });
 
 app.get('/board/list', function(req, res){
